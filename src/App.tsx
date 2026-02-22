@@ -19,6 +19,7 @@ import UnlockGate from './components/UnlockGate';
 import FloatingWindow from './components/FloatingWindow';
 import Terminal from './components/Terminal';
 import BurpSuite from './components/BurpSuite';
+import Browser from './components/Browser';
 import Dashboard from './pages/Dashboard';
 import BruteForceLab from './labs/BruteForceLab';
 import SqlInjectionLab from './labs/SqlInjectionLab';
@@ -128,9 +129,14 @@ export default function App() {
           '  sqli          - Open SQL Injection Lab',
           '  xss           - Open XSS Lab',
           '  burp          - Open Burp Suite',
+          '  browser       - Open Inbuilt Browser',
           '  challenges    - Open Challenge Arena',
           '  whoami        - Show current user',
           '  ls            - List available modules',
+          '  cat [file]    - Read file content',
+          '  date          - Show system date',
+          '  uname         - Show system info',
+          '  ifconfig      - Show network config',
           '  exit          - Logout from system'
         ]);
         break;
@@ -141,7 +147,38 @@ export default function App() {
         setLogs(prev => [...prev, 'root@hacker-lab']);
         break;
       case 'ls':
-        setLogs(prev => [...prev, 'recon  brute  sqli  xss  challenges  burp']);
+        setLogs(prev => [...prev, 'recon  brute  sqli  xss  challenges  burp  browser  notes.txt']);
+        break;
+      case 'cat':
+        if (args[1] === 'notes.txt') {
+          setLogs(prev => [...prev, 
+            '--- SECURITY RESEARCH NOTES ---',
+            'Target: internal-corp.local',
+            'Vulnerabilities identified:',
+            '1. /admin/login - Potential for Brute Force',
+            '2. /api/search - Potential for SQL Injection',
+            '3. /comments - Potential for Stored XSS',
+            '-------------------------------'
+          ]);
+        } else {
+          setLogs(prev => [...prev, `cat: ${args[1] || ''}: No such file or directory`]);
+        }
+        break;
+      case 'date':
+        setLogs(prev => [...prev, new Date().toString()]);
+        break;
+      case 'uname':
+        setLogs(prev => [...prev, 'Linux hacker-lab 5.15.0-101-generic #111-Ubuntu SMP x86_64']);
+        break;
+      case 'ifconfig':
+        setLogs(prev => [...prev, 
+          'eth0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500',
+          '        inet 10.0.2.15  netmask 255.255.255.0  broadcast 10.0.2.255',
+          '        inet6 fe80::a00:27ff:fe4e:66a1  prefixlen 64  scopeid 0x20<link>',
+          '        ether 08:00:27:4e:66:a1  txqueuelen 1000  (Ethernet)',
+          '        RX packets 124  bytes 12456 (12.4 KB)',
+          '        TX packets 89  bytes 8942 (8.9 KB)'
+        ]);
         break;
       case 'recon':
         openWindow('recon', 'Recon Lab', 'recon', Search);
@@ -157,6 +194,9 @@ export default function App() {
         break;
       case 'burp':
         openWindow('burp', 'Burp Suite Pro', 'burp', Activity);
+        break;
+      case 'browser':
+        openWindow('browser', 'Inbuilt Browser', 'browser', Globe);
         break;
       case 'challenges':
         openWindow('challenge', 'Challenge Arena', 'challenge', Trophy);
@@ -190,6 +230,8 @@ export default function App() {
     switch (window.type) {
       case 'terminal':
         return <Terminal onCommand={handleCommand} logs={terminalLogs} />;
+      case 'browser':
+        return <Browser />;
       case 'burp':
         return (
           <BurpSuite 
@@ -244,6 +286,7 @@ export default function App() {
             <div className="p-8 grid grid-cols-1 gap-8 w-fit">
               {[
                 { id: 'terminal', label: 'Terminal', icon: TerminalIcon, type: 'terminal' },
+                { id: 'browser', label: 'Browser', icon: Globe, type: 'browser' },
                 { id: 'burp', label: 'Burp Suite', icon: Activity, type: 'burp' },
                 { id: 'recon', label: 'Recon Lab', icon: Search, type: 'recon' },
                 { id: 'brute', label: 'Brute Force', icon: Lock, type: 'brute' },
