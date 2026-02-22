@@ -1,0 +1,43 @@
+@import "tailwindcss";
+
+@theme {
+  --color-hacker-bg: #0f0f0f;
+  --color-hacker-green: #00ff41;
+  --color-hacker-green-dim: #003b00;
+  --color-hacker-border: #1a1a1a;
+  --font-mono: "JetBrains Mono", "Fira Code", monospace;
+}
+
+@layer base {
+  body {
+    @apply bg-hacker-bg text-gray-300 font-mono;
+  }
+}
+
+.terminal-text {
+  text-shadow: 0 0 5px #00ff41;
+}
+
+.glass-card {
+  @apply bg-black/40 border border-hacker-border rounded-xl backdrop-blur-sm;
+}
+
+.neon-button {
+  @apply px-4 py-2 bg-transparent border border-hacker-green text-hacker-green hover:bg-hacker-green hover:text-black transition-all duration-300 rounded uppercase tracking-widest text-xs font-bold;
+}
+
+.neon-input {
+  @apply bg-black/60 border border-hacker-border text-hacker-green p-2 rounded focus:outline-none focus:border-hacker-green transition-colors;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-hacker-bg;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-hacker-green/20 rounded-full hover:bg-hacker-green/40;
+}

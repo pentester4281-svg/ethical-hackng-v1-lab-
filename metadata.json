@@ -1,0 +1,5 @@
+{
+  "name": "CyberSecurity Workshop Simulation Lab",
+  "description": "An advanced cybersecurity workshop simulation lab featuring a desktop environment, draggable windows, integrated Burp Suite proxy, and realistic vulnerability labs for Brute Force, SQLi, XSS, and Reconnaissance.",
+  "requestFramePermissions": []
+}
